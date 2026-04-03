@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
+<title>For My Love 💖</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+    background: linear-gradient(-45deg, #ff5f6d, #ffc371, #ff758c, #ff7eb3);
+    background-size: 400% 400%;
+    animation: bg 10s ease infinite;
+}
+
+@keyframes bg {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+.center {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    width:90%;
+    max-width:420px;
+    text-align:center;
+    z-index:2;
+}
+
+.card {
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    padding: 25px;
+    box-shadow: 0 0 25px rgba(255,105,180,0.6);
+}
+
+h2 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.8rem;
+    color: #ffccd5;
+}
+
+p, #text {
+    font-size: 1.5rem;
+    color: #fff;
+    line-height: 1.6;
+}
+
+button {
+    padding: 12px 25px;
+    border-radius: 30px;
+    border: none;
+    margin: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#yesBtn { background: linear-gradient(45deg,#00c853,#69f0ae); color:white; }
+#noBtn { background: linear-gradient(45deg,#ff1744,#ff616f); color:white; position:absolute; }
+
+button:hover { transform: scale(1.1); }
+
+.heart {
+    position:absolute;
+    animation: float 6s linear infinite;
+}
+
+@keyframes float {
+    0% {transform: translateY(100vh); opacity:0;}
+    100% {transform: translateY(-10vh); opacity:1;}
+}
+
+.msg {
+    padding:10px;
+    margin:8px;
+    border-radius:10px;
+    max-width:70%;
+}
+
+.me { background:#dcf8c6; margin-left:auto; color:black; }
+.her { background:white; color:black; }
+
+.hidden { display:none !important; }
+
+/* PHOTO */
+#photoFrame {
+    transition: 0.9s ease;
+}
+
+/* MEMORY SLIDER */
+.slides {
+    display: flex;
+    transition: transform 0.9s ease-in-out;
+}
+.slides img {
+    min-width: 100%;
+    height: 450px;
+    width: auto;
+    object-fit: cover;
+}
+</style>
+</head>
+
+<body>
+
+<script>
+setInterval(()=>{
+    let h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="💖";
+    h.style.left=Math.random()*100+"vw";
+    h.style.fontSize=(Math.random()*20+15)+"px";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+},400);
+</script>
+
+<!-- LOCK -->
+<div id="lock" class="center">
+    <div class="card">
+        <h2>Unlock My Heart 💖</h2>
+        <input id="pass" placeholder="Enter her name..." />
+        <br><br>
+        <button onclick="unlock()">Unlock</button>
+    </div>
+</div>
+
+<!-- HOLD -->
+<div id="hold" class="center hidden">
+    <div class="card">
+        <h2>Hold to feel my love 💕</h2>
+        <button onmousedown="startHold()" onmouseup="cancelHold()">Hold Me</button>
+    </div>
+</div>
+
+<!-- STORY -->
+<div id="story" class="center hidden">
+    <div class="card">
+        <h2 id="text"></h2>
+    </div>
+</div>
+
+<!-- PHOTOS -->
+<div id="photos" class="center hidden">
+    <div class="card">
+        <div style="position:relative;">
+            <img id="photoFrame" style="width:100%; height:250px; border-radius:15px;">
+
+            <button onclick="prevPhoto()" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);border-radius:50%;">◀</button>
+            <button onclick="nextPhoto()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);border-radius:50%;">▶</button>
+        </div>
+    </div>
+</div>
+
+<!-- CHAT -->
+<div id="chat" class="center hidden">
+    <div class="card" style="text-align:left;">
+        <h2 style="text-align:center;">Our Chats 💬</h2>
+        <div id="chatBox"></div>
+    </div>
+</div>
+
+<!-- PROPOSAL -->
+<div id="proposal" class="center hidden">
+    <div class="card">
+        <h2>Will you stay with me forever? 💍</h2>
+        <button id="yesBtn" onclick="yesClick()">Yes 💖</button>
+        <button id="noBtn" onmouseover="moveNo()">No 😜</button>
+    </div>
+</div>
+
+<!-- FINAL -->
+<div id="final" class="center hidden">
+    <div class="card">
+        <h2>You are my forever 💖</h2>
+        <p>I will love you more every single day...</p>
+    </div>
+</div>
+
+<!-- VIDEO -->
+<div id="videoPopup" style="
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:black;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    z-index:9999;
+">
+
+<button onclick="closeVideo()">Close</button>
+
+<video id="bdayVideo" width="80%" controls>
+    <source src="./videos/bday.MP4" type="video/mp4">
+</video>
+
+</div>
+
+<!-- MEMORY -->
+<div id="memory" class="center hidden">
+    <div class="card">
+        <h2>Our Beautiful Memories 📸</h2>
+        <div style="overflow:hidden;">
+            <div class="slides">
+                <!-- KEEP YOUR IMAGES SAME -->
+                <img src="./images/image1.JPEG">
+                <img src="./images/image2.JPEG">
+                <img src="./images/image3.JPEG">
+                <img src="./images/image4.JPEG">
+                <img src="./images/image5.JPEG">
+                <img src="./images/image6.JPEG">
+                <img src="./images/image7.JPEG">
+                <img src="./images/image8.JPEG">
+                <img src="./images/image9.JPEG">
+                <img src="./images/image10.JPEG">
+                <img src="./images/image11.JPEG">
+                <img src="./images/image12.JPEG">
+                <img src="./images/image13.JPEG">
+                <img src="./images/image14.JPEG">
+                <img src="./images/image15.JPEG">
+                <img src="./images/image16.JPEG">
+                <img src="./images/image17.JPEG">
+                <img src="./images/image18.JPEG">
+                <img src="./images/image19.JPEG">
+                <img src="./images/image20.JPEG">
+                <img src="./images/image21.JPEG">
+                <img src="./images/image22.JPEG">
+                <img src="./images/image23.JPEG">
+                <img src="./images/image24.JPEG">
+               <img src="./images/bday1.JPEG"> 
+               <img src="./images/bday2.JPEG"> 
+               <img src="./images/bday3.JPEG"> 
+               <img src="./images/bday4.JPEG"> 
+               <img src="./images/bday5.JPEG"> 
+               <img src="./images/bday6.JPEG"> 
+               <img src="./images/bday7.JPEG"> 
+            </div> </div> </div> </div> 
+            
+            <!-- LETTER BUTTON --> <div id="letterBtnSection" class="center hidden"> <div class="card"> <h2>I have something for you 💌</h2> <button onclick="openLetter()">Open Letter</button> </div> </div> <!-- LETTER --> <div id="letter" class="center hidden"> <div class="card"> <img src="./letter/loveletter.JPEG" style="width:100%;"> </div> </div>
+
+
+
+
+<audio id="music"></audio>
+
+<script>
+const songs=["https://www.bensound.com/bensound-music/bensound-romantic.mp3"];
+let player=document.getElementById("music");
+
+function unlock(){
+    if(document.getElementById("pass").value==="Bhuvana Balaji Dhanavath"){
+        lock.classList.add("hidden");
+        hold.classList.remove("hidden");
+    } else alert("Try again 😜");
+}
+
+let timer;
+function startHold(){
+    timer=setTimeout(()=>{
+        hold.classList.add("hidden");
+        story.classList.remove("hidden");
+        player.src=songs[0]; player.play();
+        startStory();
+    },2500);
+}
+function cancelHold(){clearTimeout(timer);}
+
+const lines=["Happy Birthday my love ❤️","You are my everything 💖","Forever yours 💌"];
+let i=0;
+function startStory(){
+    if(i<lines.length){
+        text.innerText=lines[i++];
+        setTimeout(startStory,3000);
+    } else startPhotos();
+}
+
+/* PHOTO LOGIC */
+const photoList = Array.from({length:24}, (_,i)=>`./images/image${i+1}.JPEG`);
+let currentPhoto=0, photoInterval;
+
+function startPhotos(){
+    story.classList.add("hidden");
+    photos.classList.remove("hidden");
+    showPhoto();
+    photoInterval=setInterval(nextPhoto,4000);
+}
+
+function showPhoto(){
+    photoFrame.src=photoList[currentPhoto];
+}
+
+function nextPhoto(){
+    currentPhoto++;
+    if(currentPhoto>=photoList.length){
+        clearInterval(photoInterval);
+        photos.classList.add("hidden");
+        chat.classList.remove("hidden");
+        startChat();
+        return;
+    }
+    showPhoto();
+}
+
+function prevPhoto(){
+    if(currentPhoto>0){ currentPhoto--; showPhoto(); }
+}
+
+/* CHAT */
+const chats=[{type:"her", text:"Hey Kanna❤️"}, {type:"me", text:"Hi Bangaram 😘"}, {type:"me", text:"Happy Birthday! You always make me so happy"}, {type:"her", text:"You are my everything 💖 I love you more each day"}, {type:"her", text:"I feel so lucky to have you"}, {type:"me", text:"Forever and always, my love 🫶"}];
+let c=0;
+function startChat(){
+    let interval=setInterval(()=>{
+        let m=document.createElement("div");
+        m.className="msg "+chats[c].type;
+        m.innerText=chats[c].text;
+        chatBox.appendChild(m);
+        if(++c===chats.length){
+            clearInterval(interval);
+            setTimeout(()=>{
+                chat.classList.add("hidden");
+                proposal.classList.remove("hidden");
+            },1000);
+        }
+    },1200);
+}
+
+function moveNo(){
+    noBtn.style.left=Math.random()*200+"px";
+    noBtn.style.top=Math.random()*200+"px";
+}
+
+function yesClick(){
+    document.getElementById("proposal").classList.add("hidden");
+    document.getElementById("final").classList.remove("hidden");
+
+    setTimeout(()=>{
+        document.getElementById("final").classList.add("hidden");
+
+        // Show video ONLY
+        document.getElementById("videoPopup").style.display="flex";
+    },2500);
+}
+
+/* MEMORY */
+let memoryIndex = 0;
+let memoryInterval;
+
+function startMemory(){
+    const memory = document.getElementById("memory");
+    const letterBtn = document.getElementById("letterBtnSection");
+    const slides = document.querySelector(".slides");
+
+    memory.classList.remove("hidden");
+    letterBtn.classList.add("hidden");
+
+    const total = slides.children.length;
+
+    // RESET (important)
+    memoryIndex = 0;
+    slides.style.transform = `translateX(0%)`;
+
+    clearInterval(memoryInterval);
+
+    memoryInterval = setInterval(() => {
+        memoryIndex++;
+
+        // MOVE SLIDE
+        slides.style.transform = `translateX(-${memoryIndex * 100}%)`;
+
+        // END CONDITION
+        if(memoryIndex >= total - 1){
+            clearInterval(memoryInterval);
+
+            setTimeout(() => {
+                memory.classList.add("hidden");
+                letterBtn.classList.remove("hidden"); // ✅ SHOW LETTER
+            }, 2000); // small pause after last image
+        }
+
+    }, 2000);
+}
+
+
+
+function videoEnded(){
+    closeVideo();   // reuse your existing function
+}
+
+
+function closeVideo(){
+    const videoPopup = document.getElementById("videoPopup");
+    const video = document.getElementById("bdayVideo");
+
+    video.pause();
+    video.currentTime = 0;
+
+    videoPopup.style.display = "none";
+
+    startMemory(); // 🔥 move to next step
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const video = document.getElementById("bdayVideo");
+
+    video.addEventListener("ended", function () {
+        closeVideo(); // auto move to memory
+    });
+});
+
+function openLetter(){
+    const letterBtnSection = document.getElementById("letterBtnSection");
+    const letter = document.getElementById("letter");
+
+    // Hide button section
+    letterBtnSection.classList.add("hidden");
+
+    // Show letter
+    letter.classList.remove("hidden");
+}
+
+</script>
+
+</body>
+</html>
