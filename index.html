@@ -134,11 +134,17 @@ setInterval(()=>{
     </div>
 </div>
 
-<!-- HOLD -->
-<div id="hold" class="center hidden">
+
+<!-- LOVE CLICK -->
+<div id="loveClick" class="center hidden">
     <div class="card">
-        <h2>Hold to feel my love 💕</h2>
-        <button >Hold Me</button>
+        <h2>Touch my heart 💖</h2>
+        <p>I have something special for you...</p>
+        <button onclick="showLove()">Click Me 💕</button>
+
+        <div id="loveMsg" class="hidden">
+            <p style="color:#ffccd5;">Every heartbeat whispers your name ❤️</p>
+        </div>
     </div>
 </div>
 
@@ -260,24 +266,34 @@ setInterval(()=>{
 const songs=["https://www.bensound.com/bensound-music/bensound-romantic.mp3"];
 let player=document.getElementById("music");
 
+
+
 function unlock(){
     if(document.getElementById("pass").value==="Bhuvana Balaji Dhanavath"){
         lock.classList.add("hidden");
-        hold.classList.remove("hidden");
+        loveClick.classList.remove("hidden");
     } else alert("Try again 😜");
 }
 
-let timer;
-function startHold(){
-    timer=setTimeout(()=>{
-        hold.classList.add("hidden");
-        story.classList.remove("hidden");
-        player.src=songs[0]; player.play();
-        startStory();
-    },2500);
-}
-function cancelHold(){clearTimeout(timer);}
 
+
+function showLove(){
+    document.getElementById("loveMsg").classList.remove("hidden");
+
+    setTimeout(()=>{
+        loveClick.classList.add("hidden");
+        story.classList.remove("hidden");
+        player.src=songs[0];
+        player.play();
+        startStory();
+    },2000);
+}
+
+
+
+
+
+    
 const lines=["Happy Birthday my love ❤️","You are my everything 💖","Forever yours 💌"];
 let i=0;
 function startStory(){
